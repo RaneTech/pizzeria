@@ -1,0 +1,21 @@
+{% extends 'pizzas/base.html' %}
+
+{% block content %}
+
+  <p>Pizza: {{ pizza }}</p>
+  
+  <p><a href="{% url 'new_topping' pizza.id %}">Add a new topping</a></p>
+  
+  <p>Toppings: </p>
+  <ul>
+  {% for topping in toppings %}
+    <li>{{ topping }}
+    <a href="{% url 'edit_topping' topping.id %}">Edit</a>
+    <a href="{% url 'del_topping' topping.id %}">Delete</a>
+    </li>
+  {% empty %}
+    <li>NO TOPPING!</li>
+  {% endfor %}
+  </ul>
+
+{% endblock content %}

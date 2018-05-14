@@ -1,0 +1,15 @@
+{% extends 'pizzas/base.html' %}
+
+{% block content %}
+  {% if form.errors %}
+  <p>input error,pls try again.</p>
+  {% endif %}
+  
+  <form action="{% url 'login' %}" method='post'>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button name='submit'>Login</button>
+  <input type='hidden' name='next' value="{% url 'index' %}" />
+  </form>
+  
+{% endblock content %}
