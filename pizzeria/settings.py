@@ -25,7 +25,7 @@ SECRET_KEY = 'zdphgh^6a=a*ehlvz09(klniy@=-_q!+d_47gi831ccsio#p2f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.188.193']
 
 
 # Application definition
@@ -38,8 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    #other apps
+    'bootstrap3',
+    
+    #my apps
     'pizzas',
-    'chief'
+    'chief',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +125,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_URL = '/login/'
+BOOTSTRAP3 = {'include_jquery': True}

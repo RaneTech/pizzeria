@@ -1,5 +1,17 @@
 {% extends "pizzas/base.html" %}
 
+{% block header %}
+  <div class='jumbotron'>
+      <h1>Make your pizza</h1>        
+  </div>
+{% endblock %}
+
 {% block content %}
-  <p>I love pizza!</p>
-{% endblock content %}
+  <h2>
+    <a href="{% url 'register' %}">Register an account</a> to see more
+    pizzas and toppings.
+  </h2>
+  <h2>
+    You can add your best pizza with lovely toppings.
+  </h2>
+{% endblock %}

@@ -1,21 +1,30 @@
 {% extends 'pizzas/base.html' %}
 
-{% block content %}
+{% block header %}
+  <h2>{{ pizza }}</h2>
+{% endblock header %}
 
-  <p>Pizza: {{ pizza }}</p>
-  
-  <p><a href="{% url 'new_topping' pizza.id %}">Add a new topping</a></p>
-  
-  <p>Toppings: </p>
-  <ul>
+{% block content %}
+  <p>
+    <a href="{% url 'new_topping' pizza.id %}">Add new topping</a>
+  </p>
+
   {% for topping in toppings %}
-    <li>{{ topping }}
-    <a href="{% url 'edit_topping' topping.id %}">Edit</a>
-    <a href="{% url 'del_topping' topping.id %}">Delete</a>
-    </li>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>
+          <small>
+            <a href="{% url 'edit_topping' topping.id %}">Edit</a>
+            <a href="{% url 'del_topping' topping.id %}">Delete</a>
+          </small>
+        </h3>
+      </div>
+      <div class="panel-body">
+        {{ topping }}
+      </div>
+    </div> <!-- panel -->
   {% empty %}
-    <li>NO TOPPING!</li>
+    There are no toppings for this pizza yet.
   {% endfor %}
-  </ul>
 
 {% endblock content %}
