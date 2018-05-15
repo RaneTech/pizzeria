@@ -1,14 +1,22 @@
-{% extends 'pizzas/base.html' %}
+{% extends "pizzas/base.html" %}
+{% load bootstrap3 %}
+
+{% block header %}
+  <h2>Edit Pizza:</h2>
+{% endblock header %}
 
 {% block content %}
-
-  <p><a href="{% url 'pizzas' %}">{{ pizza }}</a></p>
-  
-  <p>Edit pizza:</p>
-  <form action="{% url 'edit_pizza' pizza.id %}" method='post'>
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button name='submit'>Save</button>
+    
+  <form action="{% url 'edit_pizza' pizza.id %}" method='post'
+      class="form">
+      
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    
+    {% buttons %}
+      <button name="submit" class="btn btn-primary">Add Pizza</button>
+    {% endbuttons %}
+    
   </form>
- 
+    
 {% endblock content %}

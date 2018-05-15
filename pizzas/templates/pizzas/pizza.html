@@ -6,21 +6,25 @@
 
 {% block content %}
   <p>
-    <a href="{% url 'new_topping' pizza.id %}">Add new topping</a>
+	<h4>
+      <a href="{% url 'new_topping' pizza.id %}">Add new topping</a>
+    </h4>  
   </p>
 
   {% for topping in toppings %}
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3>
-          <small>
-            <a href="{% url 'edit_topping' topping.id %}">Edit</a>
-            <a href="{% url 'del_topping' topping.id %}">Delete</a>
-          </small>
-        </h3>
+		<h3>
+			{{ topping }}
+		</h3>
       </div>
       <div class="panel-body">
-        {{ topping }}
+        <h4>
+		  <small>
+            <a href="{% url 'edit_topping' topping.id %}">Edit</a>
+            <a href="{% url 'del_topping' topping.id %}">Delete</a>
+          </small>  
+        </h4>
       </div>
     </div> <!-- panel -->
   {% empty %}
