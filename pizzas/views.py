@@ -25,11 +25,16 @@ def my_pizzas(request):
 
 def pizza(request,pizza_id):
 	pizza = get_object_or_404(Pizza, id=pizza_id)
+	flag = False
 	if pizza.public == False:
 		if pizza.maker != request.user:
 			raise Http404
+	else:
+		if pizza.maker == request.user:
+			flag = True
+						
 	toppings = pizza.topping_set.order_by('-name')
-	context = {'pizza': pizza, 'toppings': toppings}
+	context = {'pizza': pizza, 'toppings': toppings, 'flag':flag }
 	return render(request,'pizzas/pizza.html', context)
 
 @login_required
@@ -42,7 +47,7 @@ def new_pizza(request):
 		if form.is_valid():
 			new_pizza = form.save(commit=False)
 			new_pizza.maker = request.user
-			if check_public[0] == 1:
+			if check_public[0] == '1':
 				new_pizza.public = True
 			new_pizza.save()
 			return HttpResponseRedirect(reverse('pizzas'))

@@ -7,7 +7,7 @@
 {% block content %}
   <p>
 	<h4>
-	  {% if user.is_authenticated %}	
+	  {% if flag == True %}	
         <a href="{% url 'new_topping' pizza.id %}">Add new topping</a>
       {% endif %}
     </h4>  
@@ -23,7 +23,7 @@
       <div class="panel-body">
         <h4>
 		  <small>
-			{% if user.is_authenticated %}
+			{% if flag == True %}
               <a href="{% url 'edit_topping' topping.id %}">Edit</a>
               <a href="{% url 'del_topping' topping.id %}">Delete</a>
             {% endif %}
