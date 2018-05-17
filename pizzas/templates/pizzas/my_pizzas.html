@@ -1,10 +1,7 @@
 {% extends "pizzas/base.html" %}
 
 {% block header %}
-  <h1>Public Pizzas:</h1>
-  <h3>
-	<a href="{% url 'my_pizzas' %}">My Pizzas</a>
-  </h3>
+  <h1>Pizzas:</h1>
 {% endblock %}
 
 {% block content %}
@@ -17,10 +14,18 @@
               <a href="{% url 'pizza' pizza.id %}">{{ pizza }}</a>
             </h3>
           </div>
+          <h4>
+		    <small>
+			  <a href="{% url 'edit_pizza' pizza.id %}">Edit</a>
+              <a href="{% url 'del_pizza' pizza.id %}">Delete</a>
+		    </small>
+          </h4>
         </li>
       {% empty %}
-        <li>No public pizzas.</li>
+        <li>No pizzas have been added yet.</li>
       {% endfor %}
   </ul>
+  
+  <h3><a href="{% url 'new_pizza' %}">Add new pizza</h3>
 
 {% endblock content %}

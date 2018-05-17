@@ -12,11 +12,15 @@
       
     {% csrf_token %}
     {% bootstrap_form form %}
-    
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" value="1" name="check_public">Public
+      </label>
+    </div>
     {% buttons %}
       <button name="submit" class="btn btn-primary">Add Pizza</button>
     {% endbuttons %}
-    
+
   </form>
     
 {% endblock content %}

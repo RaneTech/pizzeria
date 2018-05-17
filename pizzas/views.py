@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from pizzas.models import Pizza,Topping
 from pizzas.forms import PizzaForm,ToppingForm
 from django.urls import reverse
@@ -10,18 +10,24 @@ from django.contrib.auth.decorators import login_required
 def index(request):
 	return render(request,'pizzas/index.html')
 
-@login_required
+
 def pizzas(request):
+	pizzas = Pizza.objects.filter(public='True').order_by('name')
+	context = {'pizzas': pizzas}
+	return render(request, 'pizzas/pizzas.html', context)
+	
+@login_required
+def my_pizzas(request):
 	pizzas = Pizza.objects.filter(maker=request.user).order_by('name')
 	context = {'pizzas': pizzas}
-	return render(request,'pizzas/pizzas.html', context)
+	return render(request, 'pizzas/my_pizzas.html', context)
 
-@login_required
+
 def pizza(request,pizza_id):
-	pizza = Pizza.objects.get(id=pizza_id)
-#	if pizza.maker != request.user:
-#		raise Http404
-	check_pizza_maker(request,pizza)
+	pizza = get_object_or_404(Pizza, id=pizza_id)
+	if pizza.public == False:
+		if pizza.maker != request.user:
+			raise Http404
 	toppings = pizza.topping_set.order_by('-name')
 	context = {'pizza': pizza, 'toppings': toppings}
 	return render(request,'pizzas/pizza.html', context)
@@ -32,9 +38,12 @@ def new_pizza(request):
 		form = PizzaForm()
 	else:
 		form = PizzaForm(request.POST)
+		check_public = request.POST.getlist('check_public')
 		if form.is_valid():
 			new_pizza = form.save(commit=False)
 			new_pizza.maker = request.user
+			if check_public[0] == 1:
+				new_pizza.public = True
 			new_pizza.save()
 			return HttpResponseRedirect(reverse('pizzas'))
 	
@@ -43,7 +52,7 @@ def new_pizza(request):
 
 @login_required
 def edit_pizza(request,pizza_id):
-	pizza = Pizza.objects.get(id=pizza_id)
+	pizza = get_object_or_404(Pizza, id=pizza_id)
 	if pizza.maker != request.user:
 		raise Http404
 	if request.method != 'POST':
@@ -59,7 +68,7 @@ def edit_pizza(request,pizza_id):
 
 @login_required
 def del_pizza(request,pizza_id):
-	pizza = Pizza.objects.get(id=pizza_id)
+	pizza = get_object_or_404(Pizza, id=pizza_id)
 	if pizza.maker != request.user:
 		raise Http404
 	pizza.delete()
@@ -68,7 +77,7 @@ def del_pizza(request,pizza_id):
 
 @login_required
 def new_topping(request,pizza_id):
-	pizza = Pizza.objects.get(id=pizza_id)
+	pizza = get_object_or_404(Pizza, id=pizza_id)
 	if pizza.maker != request.user:
 		raise Http404
 	if request.method != 'POST':
@@ -86,7 +95,7 @@ def new_topping(request,pizza_id):
 
 @login_required
 def edit_topping(request,topping_id):
-	topping = Topping.objects.get(id=topping_id)
+	topping = get_object_or_404(Topping, id=topping_id)
 	pizza = topping.pizza
 	if pizza.maker != request.user:
 		raise Http404
@@ -103,7 +112,7 @@ def edit_topping(request,topping_id):
 
 @login_required
 def del_topping(request,topping_id):
-	topping = Topping.objects.get(id=topping_id)
+	topping = get_object_or_404(Topping, id=topping_id)
 	pizza = topping.pizza
 	if pizza.maker != request.user:
 		raise Http404
@@ -116,7 +125,6 @@ def check_pizza_maker(request,pizza):
 	"""check pizza maker"""
 	if pizza.maker != request.user:
 		raise Http404
-
 
 
 

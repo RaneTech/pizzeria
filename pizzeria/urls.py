@@ -24,6 +24,7 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('', views.index, name='index'),
 	path('pizzas/', views.pizzas, name='pizzas'),
+	path('my_pizzas/', views.my_pizzas, name='my_pizzas'),
 	path('pizzas/<pizza_id>/', views.pizza, name='pizza'),
 	path('new_pizza/', views.new_pizza, name='new_pizza'),
 	path('edit_pizza/<pizza_id>/', views.edit_pizza, name='edit_pizza'),
