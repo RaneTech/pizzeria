@@ -64,8 +64,14 @@ def edit_pizza(request,pizza_id):
 		form = PizzaForm(instance=pizza)
 	else:
 		form = PizzaForm(instance=pizza,data=request.POST)
+		check_public = request.POST.getlist('check_public')
 		if form.is_valid():
-			form.save()
+			new_pizza = form.save(commit=False)
+			if check_public:
+				new_pizza.public = True
+			else:
+				new_pizza.public = False
+			new_pizza.save()
 			return HttpResponseRedirect(reverse('pizzas'))
 	
 	context = {'pizza':pizza, 'form':form}

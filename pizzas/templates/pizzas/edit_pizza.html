@@ -12,7 +12,15 @@
       
     {% csrf_token %}
     {% bootstrap_form form %}
-    
+    <div class="checkbox">
+      <label>
+		{% if pizza.public == True %}
+        <input type="checkbox" value="1" name="check_public" checked>Public
+        {% else %}
+        <input type="checkbox" value="1" name="check_public">Public
+        {% endif %}
+      </label>
+    </div>
     {% buttons %}
       <button name="submit" class="btn btn-primary">Add Pizza</button>
     {% endbuttons %}
