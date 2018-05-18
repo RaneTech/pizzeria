@@ -47,7 +47,7 @@ def new_pizza(request):
 		if form.is_valid():
 			new_pizza = form.save(commit=False)
 			new_pizza.maker = request.user
-			if check_public[0] == '1':
+			if check_public:
 				new_pizza.public = True
 			new_pizza.save()
 			return HttpResponseRedirect(reverse('pizzas'))
