@@ -29,6 +29,8 @@ def pizza(request,pizza_id):
 	if pizza.public == False:
 		if pizza.maker != request.user:
 			raise Http404
+		else:
+			flag = True
 	else:
 		if pizza.maker == request.user:
 			flag = True
